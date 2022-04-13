@@ -85,7 +85,7 @@ func (g Git) Logs(project string, merge int) ([]string, error) {
 		page++
 	}
 
-	re, _ := regexp.Compile("\\[(?P<ticket>(?P<code>[A-Z]{2,})-?(?P<number>[0-9]+))\\]")
+	re, _ := regexp.Compile(`\[(?P<ticket>(?P<code>[A-Z]{2,})-?(?P<number>[0-9]+))\]`)
 
 	var tickets []string
 

@@ -15,43 +15,7 @@ jobs:
       - name: Run linters
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.29
-#  test:
-#    strategy:
-#      matrix:
-#        go-version: [1.17.x]
-#        platform: [ubuntu-latest]
-#    runs-on: ${{ matrix.platform }}
-#    steps:
-#      - name: Install Go
-#        if: success()
-#        uses: actions/setup-go@v2
-#        with:
-#          go-version: ${{ matrix.go-version }}
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#      - name: Run tests
-#        run: go test -v ./... -covermode=count -coverprofile=coverage.out
-#      - name: Convert coverage.out to coverage.lcov
-#        uses: jandelgado/gcov2lcov-action@v1.0.6
-#      - name: Coveralls
-#        uses: coverallsapp/github-action@v1.1.2
-#        with:
-#          flag-name: run-${{ matrix.platform }}
-#          parallel: true
-#          github-token: ${{ secrets.github_token }}
-#          path-to-lcov: coverage.lcov
-#
-#  coveralls:
-#    needs: test
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Coveralls Finished
-#        uses: coverallsapp/github-action@master
-#        with:
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          parallel-finished: true
+          version: v1.45.2
 
   build:
     runs-on: ubuntu-latest
@@ -62,7 +26,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.16.6'
+          go-version: '^1.17.8'
 
       - name: Build with xgo
         uses: crazy-max/ghaction-xgo@v1
