@@ -36,10 +36,11 @@ jobs:
           dest: dist
           prefix: mrsummary
           targets: linux/amd64,linux/arm64
+          tags: timetzdata
           v: true
           x: false
           race: false
-          ldflags: -s -w
+          ldflags: -s -w -extldflags "-static"
           buildmode: default
 
       - uses: "marvinpinto/action-automatic-releases@latest"
