@@ -9,4 +9,4 @@ RUN chmod +x /go/bin/MRSummary
 FROM busybox:latest
 COPY --from=app-builder /go/bin/MRSummary /bin/MRSummary
 COPY --from=app-builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-ENTRYPOINT ["/bin/MRSummary"]
+CMD ["/bin/MRSummary"]
