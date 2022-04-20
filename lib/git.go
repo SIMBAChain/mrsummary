@@ -29,9 +29,13 @@ type Summary struct {
 
 const CommentTemplate string = `# [MRSummary]
 
+{{ if not .Tickets }}
+No JIRA tickets found in this MR!
+{{ else }}
 ## Tickets in this MR
 {{ with .Tickets}}
 {{ range .}}- [**[{{ .Key }}]**]({{ .Url }}) {{ .Summary }}
+{{ end }}
 {{ end }}
 {{ end }}
 *Updated: {{ .Date }} | Created by [MRSummary](https://github.com/simbachain/mrsummary)*`
@@ -111,14 +115,16 @@ func (g Git) SetComment(project string, merge int, jiraUrl string, tickets []jir
 		Tickets: []Ticket{},
 	}
 
-	for _, jiraTicket := range tickets {
-		ticket := Ticket{
-			Key:     jiraTicket.Key,
-			Summary: jiraTicket.Fields.Summary,
-			Url:     fmt.Sprintf("%s/browse/%s", jiraUrl, jiraTicket.Key),
-		}
+	if len(tickets) > 0 {
+		for _, jiraTicket := range tickets {
+			ticket := Ticket{
+				Key:     jiraTicket.Key,
+				Summary: jiraTicket.Fields.Summary,
+				Url:     fmt.Sprintf("%s/browse/%s", jiraUrl, jiraTicket.Key),
+			}
 
-		summary.Tickets = append(summary.Tickets, ticket)
+			summary.Tickets = append(summary.Tickets, ticket)
+		}
 	}
 
 	tmpl, err := template.New("comment").Parse(CommentTemplate)

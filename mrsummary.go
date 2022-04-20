@@ -2,6 +2,7 @@ package main
 
 import (
 	"MRSummary/lib"
+	"github.com/andygrunwald/go-jira"
 	"github.com/jessevdk/go-flags"
 	"log"
 	"os"
@@ -37,14 +38,17 @@ func main() {
 		os.Exit(-3)
 
 	}
+	var parsedTickets []jira.Issue
 
-	j := lib.NewJira(opts.JiraUrl, opts.JiraEmail, opts.JiraToken)
+	if len(tickets) > 0 {
+		j := lib.NewJira(opts.JiraUrl, opts.JiraEmail, opts.JiraToken)
 
-	log.Println("Getting Jira ticket info")
-	parsedTickets, err := j.GetMultipleTickets(tickets)
-	if err != nil {
-		log.Print(err)
-		os.Exit(-4)
+		log.Println("Getting Jira ticket info")
+		parsedTickets, err = j.GetMultipleTickets(tickets)
+		if err != nil {
+			log.Print(err)
+			os.Exit(-4)
+		}
 	}
 
 	err = git.SetComment(opts.GitlabProject, opts.GitlabMergeIID, opts.JiraUrl, parsedTickets)
